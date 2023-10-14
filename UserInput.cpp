@@ -24,6 +24,16 @@ void checkPassword(string password){
     }
 }
 
+bool checkDate(int lastDate){
+    if ((lastDate + 86400) > time(NULL)){ //TODO make 86400 a variable
+        cout << "You are not yet able to make a new post. Please try again later." << endl; //change to tell how long the person has to wait for
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
 int main() {
 
     //TODO change to be read from file
@@ -37,17 +47,13 @@ int main() {
     //checking for proper password
     checkPassword(password);
 
-    //TODO check the date last used
+    if (checkDate(lastDate)) { //function is entered only if checkDate returns true
+        //TODO give character limit
 
-    if ((lastDate + 86400) > time(NULL)){ //TODO make 86400 a variable
-        cout << "You are not yet able to make a new post. Please try again later." << endl; //change to tell how long the person has to wait for
+        //TODO put user input into a file
+
+        //TODO update date last used
     }
-
-    //TODO give character limit
-
-    //TODO put user input into a file
-
-    //TODO update date last used
 
     return 0;
 }
