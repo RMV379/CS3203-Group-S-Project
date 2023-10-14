@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ int main() {
     //TODO change to be read from file
     string username = "temp";
     string password = "temp";
+    int lastDate = 0;
 
     //checking for proper username
     checkUsername(username);
@@ -36,6 +38,10 @@ int main() {
     checkPassword(password);
 
     //TODO check the date last used
+
+    if ((lastDate + 86400) > time(NULL)){ //TODO make 86400 a variable
+        cout << "You are not yet able to make a new post. Please try again later." << endl; //change to tell how long the person has to wait for
+    }
 
     //TODO give character limit
 
