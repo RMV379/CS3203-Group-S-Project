@@ -61,12 +61,38 @@ class UserInput{
             return true;
         }
         else{ //if it has been less than 24 hours since last post time, return false
-            System.out.println("You are not able to make a new post for " + (lastDate + dayCheck - time) + " milliseconds."); // TO DO change from miliseconds
-            //TO DO perhaps call a seperate function to get the time needed to display
+            System.out.println("You are not able to make a new post for " + (lastDate + dayCheck - time) + " milliseconds."); // TO DO, change from miliseconds
+            //TO DO, perhaps call a seperate function to get the time needed to display
             return false;
         }
     }
 
+    private static int giveCharLimit(){ //function connects to server and gets the character limit for the day
+        int limit = 1; //temp
+
+        //TO DO, connect to server for character limit
+
+        System.out.println("Character Limit today is: " + limit);
+
+        return limit;
+    }
+
+    private static String getPost(Scanner input, int charLimit){ //function gets the user's String within the character limit
+        String post = "a"; //temp
+
+        //TO DO, read user post within character limit
+
+        System.out.println("Your post is: " + post); //TO DO, ask for confirmation before proceeding
+
+        return post;
+    }
+
+    private static void makePost(String post){ //function connects to server and updates the user's file
+
+        //TO DO, connect to server and put user post there
+
+        System.out.println("Post Successful.");
+    }
 
     public static void main(String[] args){
         try { //attempt to read the login information from security.txt
@@ -86,13 +112,12 @@ class UserInput{
             if(checkUsername(input, username)){ //enter if username is given by user correctly
                 if(checkPassword(input, password)){ //enter if password is given by user correctly  
                     if(checkTime(input, lastDate)){ //enter if the user is passed the valid post time
-                        System.out.println("Entered timecheck block"); //temp
+                        
+                        int charLimit = giveCharLimit();//get character limit from database
+                        String post = getPost(input, charLimit); //get post from user
+                        makePost(post); //put user input into database
 
-                        //TO DO give character limit
-
-                        //TO DO put user input into a file
-
-                        //TO DO update date last used
+                        //TO DO, update date last used
                     }
                 }
             }            
