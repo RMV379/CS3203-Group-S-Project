@@ -1,9 +1,29 @@
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 class UserInput{
 
+    public static boolean writeUsernamePassword(File security, String username, String password){ //write to File function
+        try{ //attempt to create a new object with security
+            FileWriter securityWriter = new FileWriter(security, false); //overwrite security.txt
+                    
+            //write information to file
+            securityWriter.write(username + "\n"); 
+            securityWriter.write(password + "\n");
+            securityWriter.write("0");
+
+            securityWriter.close(); //close FileWriter
+            return true;
+        }
+        catch(IOException e){ //catch error with FileWriter
+            System.out.println("Error creating new login.");
+            return false;
+        }
+    }
+    
     public static boolean checkUsername(Scanner input, String username){ //username check function
         String usernameInput;
         System.out.println("Input Username: ");
@@ -87,11 +107,32 @@ class UserInput{
         return post;
     }
 
-    public static void makePost(String post){ //function connects to server and updates the user's file
+    public static boolean makePost(String post){ //function connects to server and updates the user's file
 
         //TO DO, connect to server and put user post there
 
         System.out.println("Post Successful.");
+        return true;
+    }
+
+    public static boolean writeDate(File security, String username, String password){ //write to File function
+        try{ //attempt to create a new object with security
+            FileWriter securityWriter = new FileWriter(security, false); //overwrite security.txt
+                    
+            //rewrite login information to file
+            securityWriter.write(username + "\n"); 
+            securityWriter.write(password + "\n");
+
+            long time = System.currentTimeMillis(); //get current time
+            securityWriter.write(String.valueOf(time)); //write current time to file
+
+            securityWriter.close(); //close FileWriter
+            return true;
+        }
+        catch(IOException e){ //catch error with FileWriter
+            System.out.println("Error adding date.");
+            return false;
+        }
     }
 
     public static void main(String[] args){
@@ -105,10 +146,19 @@ class UserInput{
             long lastDate = securityReader.nextLong();
             
             securityReader.close(); //close file scanner
-
-            //TO DO set up username and password creation
-
+           
             Scanner input = new Scanner(System.in); //user input scanner
+
+            while(username.equals("temp")){ //while default username is given, a new one is requested, cannot give default username
+                System.out.println("Please enter new username: ");
+                username = input.nextLine(); //read new username
+                
+                System.out.println("Please enter new password: ");
+                password = input.nextLine(); //read new password
+
+                writeUsernamePassword(security, username, password);
+            }
+
             if(checkUsername(input, username)){ //enter if username is given by user correctly
                 if(checkPassword(input, password)){ //enter if password is given by user correctly  
                     if(checkTime(input, lastDate)){ //enter if the user is passed the valid post time
@@ -116,8 +166,7 @@ class UserInput{
                         int charLimit = giveCharLimit();//get character limit from database
                         String post = getPost(input, charLimit); //get post from user
                         makePost(post); //put user input into database
-
-                        //TO DO, update date last used
+                        writeDate(security, username, password); //update file for date
                     }
                 }
             }            
