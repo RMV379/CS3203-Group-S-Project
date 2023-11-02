@@ -75,8 +75,14 @@ class UserInput{
             return true;
         }
         else{ //if it has been less than 24 hours since last post time, return false
-            System.out.println("You are not able to make a new post for " + (lastDate + dayCheck - time) + " milliseconds."); // TO DO, change from miliseconds
-            //TO DO, perhaps call a seperate function to get the time needed to display
+            //exact time to wait
+            long seconds = (lastDate + dayCheck - time) / 1000;
+            long minutes = seconds / 60;
+            long secondsRemainder = seconds % 60;
+            long hours = minutes / 60;
+            long minutesRemainder = minutes % 60;
+            
+            System.out.println("You are not able to make a new post for " + hours + " hours, " + minutesRemainder + " minutes, and " + secondsRemainder + " seconds.");
             return false;
         }
     }
