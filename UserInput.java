@@ -16,11 +16,11 @@ class UserInput{
             securityWriter.write("0");
 
             securityWriter.close(); //close FileWriter
-            return true;
+            return true; //for testing purposes
         }
         catch(IOException e){ //catch error with FileWriter
             System.out.println("Error creating new login.");
-            return false;
+            return false; //for testing purposes
         }
     }
     
@@ -140,11 +140,11 @@ class UserInput{
             securityWriter.write(String.valueOf(time)); //write current time to file
 
             securityWriter.close(); //close FileWriter
-            return true;
+            return true; //for testing purposes
         }
         catch(IOException e){ //catch error with FileWriter
             System.out.println("Error adding date.");
-            return false;
+            return false; //for testing purposes
         }
     }
 
