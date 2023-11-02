@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 
 class UserInput{
 
-    private static boolean checkUsername(Scanner input, String username){ //username check function
+    public static boolean checkUsername(Scanner input, String username){ //username check function
         String usernameInput;
         System.out.println("Input Username: ");
         usernameInput = input.nextLine(); //store user attempt
@@ -29,7 +29,7 @@ class UserInput{
         }
     }
 
-    private static boolean checkPassword(Scanner input, String password){ //password check function
+    public static boolean checkPassword(Scanner input, String password){ //password check function
         String passwordInput;
         System.out.println("Input Password: ");
         passwordInput = input.nextLine(); //store user attempt
@@ -53,7 +53,7 @@ class UserInput{
         }
     }
 
-    private static boolean checkTime(Scanner input, long lastDate){ //post time check function
+    public static boolean checkTime(Scanner input, long lastDate){ //post time check function
         long time = System.currentTimeMillis(); //call for the current time in miliseconds
         long dayCheck = 86400000; //24 hours in miliseconds
 
@@ -67,7 +67,7 @@ class UserInput{
         }
     }
 
-    private static int giveCharLimit(){ //function connects to server and gets the character limit for the day
+    public static int giveCharLimit(){ //function connects to server and gets the character limit for the day
         int limit = 1; //temp
 
         //TO DO, connect to server for character limit
@@ -77,7 +77,7 @@ class UserInput{
         return limit;
     }
 
-    private static String getPost(Scanner input, int charLimit){ //function gets the user's String within the character limit
+    public static String getPost(Scanner input, int charLimit){ //function gets the user's String within the character limit
         String post = "a"; //temp
 
         //TO DO, read user post within character limit
@@ -87,7 +87,7 @@ class UserInput{
         return post;
     }
 
-    private static void makePost(String post){ //function connects to server and updates the user's file
+    public static void makePost(String post){ //function connects to server and updates the user's file
 
         //TO DO, connect to server and put user post there
 
