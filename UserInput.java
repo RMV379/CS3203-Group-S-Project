@@ -178,8 +178,9 @@ class UserInput{
                         
                         int charLimit = giveCharLimit();//get character limit from database
                         String post = getPost(input, charLimit); //get post from user
-                        makePost(post); //put user input into database
-                        writeDate(security, username, password); //update file for date
+                        if(makePost(post)){ //put user input into database
+                            writeDate(security, username, password); //update file for date, only if post was successful
+                        }
                     }
                 }
             }            
