@@ -26,27 +26,21 @@ class UserInput{
     
     public static boolean checkUsername(Scanner input, String username){ //username check function
         String usernameInput;
+        String exit = "Exit"; // to help leave loop
         System.out.println("Input Username: ");
         usernameInput = input.nextLine(); //store user attempt
-        
-        //user chances to give correct username
-        int chances = 0;
-        int chanceCap = 5;
 
-        while(((usernameInput.equals(username)) != true) && (chances < chanceCap)){ //only loop when the user gives an incorrect password and still has chances
-            chances += 1;
-            System.out.println("Username not recognized, please try again. " + (chanceCap - chances) + " chances remain.");
-            //MAYBE remove username cap, but then this is an infinite loop until true
+        while(((usernameInput.equals(username) != true) && (usernameInput.equals(exit) != true))){ //loops forever until username is recognized or Exit is typed
+            System.out.println("Username not recognized, please try again. Type Exit to give up.");
             usernameInput = input.nextLine(); //store next user attempt
         }
 
-        if (chances < chanceCap){ //if user gets the correct username before losing their chances, return true
-            return true;
-        }
-        else{ //if user goes over their chances, return false
-            System.out.println("You have no more attempts to enter the username correctly.");
+        if(usernameInput.equals(exit)){ //only returns false if the user typed Exit
             return false;
         }
+        else{
+            return true;
+        }        
     }
 
     public static boolean checkPassword(Scanner input, String password){ //password check function
