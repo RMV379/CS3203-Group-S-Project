@@ -98,13 +98,26 @@ class UserInput{
     }
 
     public static String getPost(Scanner input, int charLimit){ //function gets the user's String within the character limit
-        String post = "a"; //temp
+        String post;
+        String confirmation;
 
-        //TO DO, read user post within character limit
+        System.out.println("Type your post within the character limit: ");
+        post = input.nextLine(); //receive user input
 
-        System.out.println("Your post is: " + post); //TO DO, ask for confirmation before proceeding
+        if(post.length() > charLimit){ //make sure the post is within the char limit
+            System.out.println("Your post exceeds the character limit. Please try again: ");
+            post = input.nextLine();
+        }
 
-        return post;
+        System.out.println("Your post is: '" + post + "'. Would you like to post this? [y/n]"); //Ask for confirmation before proceeding
+        confirmation = input.nextLine();
+        
+        if(confirmation.equals("y")){
+            return post; //only return post if the user says yes
+        }
+        else{
+            return getPost(input, charLimit); //recursion if the user wants to make a different post
+        }
     }
 
     public static boolean makePost(String post){ //function connects to server and updates the user's file
