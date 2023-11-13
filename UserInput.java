@@ -1,97 +1,195 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 class UserInput{
-   
-    private static boolean checkUsername(Scanner input, String username){
-        String usernameInput;
-        System.out.println("Input Username: ");
-        usernameInput = input.nextLine();
-        
-        int chances = 0;
-        int chanceCap = 5;
 
-        while(((usernameInput.equals(username)) != true) && (chances < chanceCap)){
-            chances += 1;
-            System.out.println("Username not recognized, please try again. " + (chanceCap - chances) + " chances remain.");
-            //Maybe remove username cap, but then this is an infinite loop until true
-            usernameInput = input.nextLine();
+    public static boolean writeUsernamePassword(File security, String username, String password){ //write to File function
+        try{ //attempt to create a new object with security
+            FileWriter securityWriter = new FileWriter(security, false); //overwrite security.txt
+                    
+            //write information to file
+            securityWriter.write(username + "\n"); 
+            securityWriter.write(password + "\n");
+            securityWriter.write("0");
+
+            securityWriter.close(); //close FileWriter
+            return true; //for testing purposes
         }
-        if (chances < chanceCap){
-            return true;
-        }
-        else{
-            return false;
+        catch(IOException e){ //catch error with FileWriter
+            System.out.println("Error creating new login.");
+            return false; //for testing purposes
         }
     }
+    
+    public static boolean checkUsername(Scanner input, String username){ //username check function
+        String usernameInput;
+        String exit = "Exit"; // to help leave loop
+        System.out.println("Input Username: ");
+        usernameInput = input.nextLine(); //store user attempt
 
-    private static boolean checkPassword(Scanner input, String password){
+        while(((usernameInput.equals(username) != true) && (usernameInput.equals(exit) != true))){ //loops forever until username is recognized or Exit is typed
+            System.out.println("Username not recognized, please try again. Type Exit to give up.");
+            usernameInput = input.nextLine(); //store next user attempt
+        }
+
+        if(usernameInput.equals(exit)){ //only returns false if the user typed Exit
+            return false;
+        }
+        else{
+            return true;
+        }        
+    }
+
+    public static boolean checkPassword(Scanner input, String password){ //password check function
         String passwordInput;
         System.out.println("Input Password: ");
-        passwordInput = input.nextLine();
+        passwordInput = input.nextLine(); //store user attempt
 
+        //user chances to give correct password
         int chances = 0;
         int chanceCap = 5;
 
-        while(((passwordInput.equals(password)) != true) && (chances < chanceCap)){
+        while(((passwordInput.equals(password)) != true) && (chances < chanceCap)){ //only loop when the user gives an incorrect password and still has chances
             chances += 1;
             System.out.println("Incorrect Password, " + (chanceCap - chances) + " chances remain.");
-            passwordInput = input.nextLine();
+            passwordInput = input.nextLine(); //store next user attempt
         }
-        if (chances < chanceCap){
+
+        if (chances < chanceCap){ //if user gets the correct password before losing their chances, return true
             return true;
         }
-        else{
+        else{ //if user goes over their chances, return false
+            System.out.println("You have no more attempts to enter the password correctly.");
             return false;
         }
     }
 
-    private static boolean checkTime(Scanner input, long lastDate){
-        long time = System.currentTimeMillis();
-        long dayCheck = 86400;
+    public static boolean checkTime(Scanner input, long lastDate){ //post time check function
+        long time = System.currentTimeMillis(); //call for the current time in miliseconds
+        long dayCheck = 86400000; //24 hours in miliseconds
 
-        if ((lastDate + dayCheck) > time){
-            System.out.println("You are not able to make a new post for " + (lastDate + dayCheck - time) + " milliseconds."); // TODO change from miliseconds
-            //TODO perhaps call a seperate function to get the time needed to display
-            return false;
-        }
-        else{
+        if ((lastDate + dayCheck) < time){ //if it has been over 24 hours since the last post time, return true
             return true;
+        }
+        else{ //if it has been less than 24 hours since last post time, return false
+            //exact time to wait
+            long seconds = (lastDate + dayCheck - time) / 1000;
+            long minutes = seconds / 60;
+            long secondsRemainder = seconds % 60;
+            long hours = minutes / 60;
+            long minutesRemainder = minutes % 60;
+            
+            System.out.println("You are not able to make a new post for " + hours + " hours, " + minutesRemainder + " minutes, and " + secondsRemainder + " seconds.");
+            return false;
         }
     }
 
+    public static int giveCharLimit(){ //function connects to server and gets the character limit for the day
+        int limit = 1; //temp
+
+        //TO DO, connect to server for character limit
+
+        System.out.println("Character Limit today is: " + limit);
+
+        return limit;
+    }
+
+    public static String getPost(Scanner input, int charLimit){ //function gets the user's String within the character limit
+        String post;
+        String confirmation;
+
+        System.out.println("Type your post within the character limit: ");
+        post = input.nextLine(); //receive user input
+
+        if(post.length() > charLimit){ //make sure the post is within the char limit
+            System.out.println("Your post exceeds the character limit. Please try again: ");
+            post = input.nextLine();
+        }
+
+        System.out.println("Your post is: '" + post + "'. Would you like to post this? [y/n]"); //Ask for confirmation before proceeding
+        confirmation = input.nextLine();
+        
+        if(confirmation.equals("y")){
+            return post; //only return post if the user says yes
+        }
+        else{
+            return getPost(input, charLimit); //recursion if the user wants to make a different post
+        }
+    }
+
+    public static boolean makePost(String post){ //function connects to server and updates the user's file
+
+        //TO DO, connect to server and put user post there
+
+        System.out.println("Post Successful.");
+        return true;
+    }
+
+    public static boolean writeDate(File security, String username, String password){ //write to File function
+        try{ //attempt to create a new object with security
+            FileWriter securityWriter = new FileWriter(security, false); //overwrite security.txt
+                    
+            //rewrite login information to file
+            securityWriter.write(username + "\n"); 
+            securityWriter.write(password + "\n");
+
+            long time = System.currentTimeMillis(); //get current time
+            securityWriter.write(String.valueOf(time)); //write current time to file
+
+            securityWriter.close(); //close FileWriter
+            return true; //for testing purposes
+        }
+        catch(IOException e){ //catch error with FileWriter
+            System.out.println("Error adding date.");
+            return false; //for testing purposes
+        }
+    }
 
     public static void main(String[] args){
-        //TODO change to be read from file
-        String username = "temp";
-        String password = "temp";
-        long lastDate = 0;
-        
-        Scanner input = new Scanner(System.in);
+        try { //attempt to read the login information from security.txt
+            File security = new File("security.txt"); //file object
+            Scanner securityReader = new Scanner(security); //file scanner
+           
+            //storing login information
+            String username = securityReader.nextLine();
+            String password = securityReader.nextLine();
+            long lastDate = securityReader.nextLong();
+            
+            securityReader.close(); //close file scanner
+           
+            Scanner input = new Scanner(System.in); //user input scanner
 
-        //TODO, set up username and password creation
-
-        //check for proper username
-        boolean usernameCheck = checkUsername(input, username);
-
-        //check for proper password
-        boolean passwordCheck = checkPassword(input, password);
-
-        //check for valid time, only if username and password are correct
-        boolean timeCheck;
-        if(usernameCheck && passwordCheck){
-            timeCheck = checkTime(input, lastDate);
-            if(timeCheck){
-                System.out.println("Entered timecheck block"); //temp
+            while(username.equals("temp")){ //while default username is given, a new one is requested, cannot give default username
+                System.out.println("Please enter new username: ");
+                username = input.nextLine(); //read new username
                 
-                //TODO give character limit
+                System.out.println("Please enter new password: ");
+                password = input.nextLine(); //read new password
 
-                //TODO put user input into a file
-
-                //TODO update date last used
+                writeUsernamePassword(security, username, password);
             }
+
+            if(checkUsername(input, username)){ //enter if username is given by user correctly
+                if(checkPassword(input, password)){ //enter if password is given by user correctly  
+                    if(checkTime(input, lastDate)){ //enter if the user is passed the valid post time
+                        
+                        int charLimit = giveCharLimit();//get character limit from database
+                        String post = getPost(input, charLimit); //get post from user
+                        if(makePost(post)){ //put user input into database
+                            writeDate(security, username, password); //update file for date, only if post was successful
+                        }
+                    }
+                }
+            }            
+            input.close(); //close user input scanner
+        }
+        catch (FileNotFoundException e) { //enter if security.txt cannot be found
+            System.out.println("Login Information could not be found.");
         }
         
-        System.out.println("Goodbye!"); //temp
-
+        System.out.println("Program Exiting, Goodbye."); //final output
     }
 }
