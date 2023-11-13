@@ -1,11 +1,16 @@
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import static org.junit.Assert.assertEquals;
+import java.util.Scanner;
 
-public class UnitTest {
+public class TestcheckUsername {
 
     @Test
-    public void tempTest() { //test edge case, negative value target
-        Assertions.assertEquals(1, 1);
+    void Test() { //test edge case, negative value target
+        Scanner input = new Scanner(System.in);
+        String Username = "tonyesh";
+        
+        assertEquals(true, -1);
     }
     
 }
