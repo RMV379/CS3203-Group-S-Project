@@ -36,12 +36,22 @@ public class Launcher extends JFrame {
 				char[] password = passwordField.getPassword();
 				String passwordString = new String(password);
 				
-				// TODO: Authentication for password
+				// TODO: Authentication logic for password
 				
 				if (username.equals("username") && passwordString.equals("password")) {
 					JOptionPane.showMessageDialog(null, "Logged in");
 					
-					// TODO: Actions after successful login
+					// Actions after successful login
+					SwingUtilities.getWindowAncestor((Component) e.getSource()).dispose();
+					
+					// New Window with welcome message
+					JFrame welcomeFrame = new JFrame("Welcome " + username);
+					JLabel welcomeLabel = new JLabel("Welcome, " + username + "!");
+					welcomeFrame.add(welcomeLabel);
+					welcomeFrame.setSize(600,500);
+					welcomeFrame.setLocationRelativeTo(null);
+					welcomeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					welcomeFrame.setVisible(true);
 				}
 				
 				else {
@@ -54,6 +64,24 @@ public class Launcher extends JFrame {
 		
 		setVisible(true);
 	}
+	
+	public static boolean writeUsernamePassword(File security, String username, String password){ //write to File function
+        try{ //attempt to create a new object with security
+            FileWriter securityWriter = new FileWriter(security, false); //overwrite security.txt
+                    
+            //write information to file
+            securityWriter.write(username + "\n"); 
+            securityWriter.write(password + "\n");
+            securityWriter.write("0");
+
+            securityWriter.close(); //close FileWriter
+            return true; //for testing purposes
+        }
+        catch(IOException e){ //catch error with FileWriter
+            System.out.println("Error creating new login.");
+            return false; //for testing purposes
+        }
+    }
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
