@@ -54,6 +54,17 @@ public class Launcher extends JFrame {
 					welcomeFrame.setVisible(true);
 				}
 				
+				else if(!username.equals("username") || !password.equals("password")) {
+					int option = JOptionPane.showConfirmDialog(null, "Do you want to create an account?", "Create Account", JOptionPane.YES_NO_OPTION);
+					if (option == JOptionPane.YES_OPTION) {
+						// TODO: Insert/redirect to account creation logic.
+						JOptionPane.showMessageDialog(null, "Redirecting to account creation...");
+					} else {
+						// Do nothing
+						JOptionPane.showMessageDialog(null, "Okay. Please input a correct username and password.");
+					}
+				}
+				
 				else {
 					JOptionPane.showMessageDialog(null, "Username or Password is invalid.");
 				}
