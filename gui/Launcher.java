@@ -52,6 +52,8 @@ public class Launcher extends JFrame {
 					welcomeFrame.setLocationRelativeTo(null);
 					welcomeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					welcomeFrame.setVisible(true);
+					
+					new ChirpWindow(username);
 				}
 				
 				else if(!username.equals("username") || !password.equals("password")) {
