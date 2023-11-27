@@ -8,7 +8,6 @@ public class User {
 
     @Id
     private Integer id;
-
     private String userName = "null";
 
     public Integer getId() {
