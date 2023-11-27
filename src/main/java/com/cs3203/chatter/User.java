@@ -1,24 +1,30 @@
 package com.cs3203.chatter;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+
+@Table("USERS")
 public class User {
 
-    private String id = "1";
-    private String username = "null";
-    
-    public String getId() {
+    @Id
+    private Integer id;
+
+    private String userName = "null";
+
+    public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	public String getUsername() {
-		return username;
+		return userName;
 	}
 
 	public void setUsername(String username) {
-		this.username = username;
+		this.userName = username;
 	}
     
     public User()
@@ -26,9 +32,9 @@ public class User {
 
     }
 
-    public User(String id, String username)
+    public User(Integer id, String username)
     {
         this.id = id;
-        this.username = username;
+        this.userName = username;
     }
 }
