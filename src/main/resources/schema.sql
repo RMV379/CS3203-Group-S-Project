@@ -1,11 +1,10 @@
-create table if not exists USERS (
+CREATE TABLE IF NOT EXISTS USERS (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    userName varchar(255),
-    data binary large object
+    userName VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS POSTS (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id INT PRIMARY KEY,
     content TEXT,
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES USERS(id)
