@@ -1,5 +1,5 @@
-create table if not exists users (
+create table if not exists USERS (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    user_name varchar(255),
+    userName varchar(255),
     data binary large object
 );
